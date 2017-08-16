@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "betaunfix",
+    "name": "Minecraft Beta 1.3 Unfix",
+    "description": "",
+    "version": "${version}",
+    "mcversion": "${mcversion}",
+    "updateUrl": "",
+    "authorList": ["DeflatedPickle"],
+    "credits": "DeflatedPickle, Loremaster",
+    "url": "hhttps://github.com/DeflatedPickle/Minecraft-Beta-1.3-Unfix",
+    "logoFile": "logo.png",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
