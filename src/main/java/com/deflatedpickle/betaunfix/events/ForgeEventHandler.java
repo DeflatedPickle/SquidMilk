@@ -17,7 +17,7 @@ public class ForgeEventHandler {
 
         if (entity instanceof EntitySquid){
             if (player.getHeldItemMainhand().getItem() instanceof ItemBucket){
-                player.getHeldItemMainhand().shrink(1);
+                player.getHeldItemMainhand().stackSize--;
                 player.inventory.addItemStackToInventory(new ItemStack(Items.MILK_BUCKET, 1));
             }
         }
