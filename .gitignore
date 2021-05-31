@@ -19,7 +19,7 @@
 *.classpath
 *.db
 *.iml
-*.jar
+/build/*.jar
 *.ipr
 *.iws
 *.launch
