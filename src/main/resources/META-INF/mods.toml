@@ -1,5 +1,6 @@
-modLoader="kotlinfml"
+modLoader="kotlinforforge"
 loaderVersion="[1,)"
+license="MIT"
 issueTrackerURL="https://github.com/DeflatedPickle/SquidMilk/issues"
 [[mods]]
 modId="squidmilk"

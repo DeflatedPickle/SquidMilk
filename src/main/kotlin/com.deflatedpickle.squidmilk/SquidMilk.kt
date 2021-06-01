@@ -28,8 +28,8 @@ object SquidMilk {
     // if there are, it cancels the event to fill the bucket with water
     fun onItemRightClick(event: FillBucketEvent) {
         event.world.let { world ->
-            event.target?.hitVec?.let { vec3d ->
-                world.getEntitiesWithinAABBExcludingEntity(
+            event.target?.location?.let { vec3d ->
+                world.getEntities(
                     null,
                     AxisAlignedBB(BlockPos(vec3d))
                 ).let { entities ->
@@ -50,15 +50,15 @@ object SquidMilk {
         event.target?.let { entity ->
             if (entity is SquidEntity) {
                 event.player?.let { player ->
-                    if (player.heldItemMainhand.item == Items.BUCKET) {
-                        if (!player.world.isRemote && !player.isCreative) {
-                            player.heldItemMainhand.shrink(1)
+                    if (player.mainHandItem.item == Items.BUCKET) {
+                        if (!player.commandSenderWorld.isClientSide && !player.isCreative) {
+                            player.mainHandItem.shrink(1)
                         }
 
-                        player.playSound(SoundEvents.ITEM_BUCKET_FILL, 1.0f, 1.0f)
+                        player.playSound(SoundEvents.BUCKET_FILL, 1.0f, 1.0f)
 
-                        if (!player.world.isRemote) {
-                            player.inventory.addItemStackToInventory(
+                        if (!player.commandSenderWorld.isClientSide) {
+                            player.inventory.add(
                                 ItemStack(Items.MILK_BUCKET, 1)
                             )
                         }

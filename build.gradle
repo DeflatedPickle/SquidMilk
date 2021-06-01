@@ -11,7 +11,7 @@ buildscript {
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'com.diffplug.gradle.spotless'
+apply plugin: 'com.diffplug.spotless'
 apply plugin: 'net.minecraftforge.gradle'
 
 version = "${minecraft_version()}-$mod_version"
@@ -24,7 +24,7 @@ compileJava {
 }
 
 minecraft {
-    mappings channel: "$mappings_channel", version: "$mappings_version-${minecraft_version_short()}"
+    mappings channel: "$mappings_channel", version: "${minecraft_version()}"
 
     runs {
         client {
@@ -32,11 +32,37 @@ minecraft {
 
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+
+            mods {
+                squidmilk {
+                    source sourceSets.main
+                }
+            }
         }
 
         server {
             property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
             property 'forge.logging.console.level', 'debug'
+
+            mods {
+                squidmilk {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', "$mod_id".toString(), '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources')
+
+            mods {
+                squidmilk {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }
@@ -48,7 +74,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version()}-$forge_version"
-    implementation "curse.maven:kottle-314581:$kottle_version"
+    implementation "curse.maven:kotlinforforge-351264:$kotlinforforge_version"
 }
 
 jar {
@@ -56,9 +82,9 @@ jar {
         attributes([
                 "Specification-Title": project.name,
                 "Specification-Vendor": "$group",
-                "Specification-Version": "${version}",
+                "Specification-Version": "${archiveVersion}",
                 "Implementation-Title": project.name,
-                "Implementation-Version": "${version}",
+                "Implementation-Version": "${archiveVersion}",
                 "Implementation-Vendor" : "$group",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
@@ -69,6 +95,10 @@ compileKotlin {
     kotlinOptions {
         jvmTarget = "$jvm_version"
     }
+}
+
+sourceSets.main.resources {
+    srcDirs 'src/generated/resources/'
 }
 
 spotless {
