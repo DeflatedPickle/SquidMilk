@@ -33,8 +33,8 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 object SquidMilk {
     const val MOD_ID = "squidmilk"
     const val NAME = "SquidMilk"
-    const val VERSION = "1.11.2-2.0.0.0"
-    const val ACCEPTED_VERSIONS = "[1.11,1.11.2]"
+    const val VERSION = "1.12.2-2.0.0.0"
+    const val ACCEPTED_VERSIONS = "[1.12,1.12.2]"
     const val DEPENDENCIES = "required-after:forgelin;"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 

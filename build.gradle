@@ -1,5 +1,6 @@
 buildscript {
     repositories {
+        mavenCentral()
         maven { url 'http://files.minecraftforge.net/maven' }
     }
     dependencies {
@@ -11,10 +12,10 @@ buildscript {
 
 apply plugin: 'kotlin'
 apply plugin: 'com.diffplug.gradle.spotless'
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
 version = "${minecraft_version()}-$mod_version"
-group = "com.${developer.toLowerCase()}.$mod_id"
+group = "com.${developer.toLowerCase()}"
 archivesBaseName = "$mod_id"
 
 sourceCompatibility = targetCompatibility = "$jvm_version"
@@ -23,9 +24,21 @@ compileJava {
 }
 
 minecraft {
-    version = "${minecraft_version()}-$forge_version"
-    runDir = "run"
-    mappings = "${mappings_channel}_$mappings_version"
+    mappings channel: "$mappings_channel", version: "$mappings_version"
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+
+        server {
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'debug'
+        }
+    }
 }
 
 repositories {
@@ -34,20 +47,21 @@ repositories {
 }
 
 dependencies {
+    minecraft "net.minecraftforge:forge:${minecraft_version()}-$forge_version"
     implementation "curse.maven:forgelin-248453:$forgelin_version"
 }
 
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
+jar {
+    manifest {
+        attributes([
+                "Specification-Title": project.name,
+                "Specification-Vendor": "$group",
+                "Specification-Version": "${version}",
+                "Implementation-Title": project.name,
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" : "$group",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+        ])
     }
 }
 
