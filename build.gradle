@@ -24,7 +24,7 @@ compileJava {
 }
 
 minecraft {
-    mappings channel: "$mappings_channel", version: "$mappings_version-${minecraft_version()}"
+    mappings channel: "$mappings_channel", version: "$mappings_version-${minecraft_version_short()}"
 
     runs {
         client {
@@ -89,4 +89,8 @@ spotless {
 
 String minecraft_version() {
     return "$minecraft_major.$minecraft_minor.$minecraft_patch"
+}
+
+String minecraft_version_short() {
+    return "$minecraft_major.$minecraft_minor"
 }
