@@ -24,7 +24,7 @@ compileJava {
 }
 
 minecraft {
-    mappings channel: "$mappings_channel", version: "$mappings_version"
+    mappings channel: "$mappings_channel", version: "$mappings_version-${minecraft_version()}"
 
     runs {
         client {
@@ -48,7 +48,7 @@ repositories {
 
 dependencies {
     minecraft "net.minecraftforge:forge:${minecraft_version()}-$forge_version"
-    implementation "curse.maven:forgelin-248453:$forgelin_version"
+    implementation "curse.maven:kottle-314581:$kottle_version"
 }
 
 jar {

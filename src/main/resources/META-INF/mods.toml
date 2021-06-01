@@ -1,0 +1,13 @@
+modLoader="kotlinfml"
+loaderVersion="[1,)"
+issueTrackerURL="https://github.com/DeflatedPickle/SquidMilk/issues"
+[[mods]]
+modId="squidmilk"
+version="${file.jarVersion}"
+displayName="SquidMilk"
+displayURL="https://github.com/DeflatedPickle/SquidMilk"
+logoFile="logo.png"
+credits="Mojang, Minecraft, Forge, FML"
+authors="DeflatedPickle"
+description='''
+'''
