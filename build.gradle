@@ -14,7 +14,7 @@ apply plugin: 'com.diffplug.gradle.spotless'
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "${minecraft_version()}-$mod_version"
-group = "com.${developer.toLowerCase()}.$mod_id"
+group = "com.${developer.toLowerCase()}"
 archivesBaseName = "$mod_id"
 
 sourceCompatibility = targetCompatibility = "$jvm_version"
