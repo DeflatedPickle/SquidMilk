@@ -1,14 +1,14 @@
 [
   {
-    "modid": "squidmilk",
-    "name": "Minecraft Beta 1.3 Unfix",
+    "modid": "${mod_id}",
+    "name": "${name}",
     "description": "",
     "version": "${version}",
     "mcversion": "${mcversion}",
     "updateUrl": "",
-    "authorList": ["DeflatedPickle"],
-    "credits": "DeflatedPickle",
-    "url": "https://github.com/DeflatedPickle/Minecraft-Beta-1.3-Unfix",
+    "authorList": ["${developer}"],
+    "credits": "${developer}",
+    "url": "https://github.com/${developer}/${name}",
     "logoFile": "logo.png",
     "screenshots": [],
     "dependencies": []

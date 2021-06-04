@@ -1,26 +1,43 @@
 buildscript {
     repositories {
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://files.minecraftforge.net/maven' }
+
         mavenCentral()
-        maven { url 'http://files.minecraftforge.net/maven' }
+        gradlePluginPortal()
     }
     dependencies {
         classpath "net.minecraftforge.gradle:ForgeGradle:$forgegradle_version"
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:$cursegradle_version"
+        classpath "gradle.plugin.com.modrinth.minotaur:Minotaur:$minotaur_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.diffplug.spotless:spotless-plugin-gradle:$spotless_version"
+        classpath "nu.studer:gradle-credentials-plugin:$credentials_version"
     }
 }
 
 apply plugin: 'kotlin'
-apply plugin: 'com.diffplug.gradle.spotless'
 apply plugin: 'net.minecraftforge.gradle'
+apply plugin: 'com.matthewprenger.cursegradle'
+apply plugin: 'com.modrinth.minotaur'
+apply plugin: 'com.diffplug.gradle.spotless'
+apply plugin: 'nu.studer.credentials'
 
-version = "${minecraft_version()}-$mod_version"
+version = "$minecraft_max_version-$mod_version-$mod_loader"
 group = "com.${developer.toLowerCase()}"
-archivesBaseName = "$mod_id"
+archivesBaseName = "${mod_name.toLowerCase()}"
 
 sourceCompatibility = targetCompatibility = "$jvm_version"
-compileJava {
-    sourceCompatibility = targetCompatibility = "$jvm_version"
+compileKotlin.kotlinOptions.jvmTarget = "$jvm_version"
+
+repositories {
+    mavenCentral()
+    maven { url "https://www.cursemaven.com/" }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:$minecraft_max_version-$forge_version"
+    implementation "curse.maven:forgelin-248453:$forgelin_version"
 }
 
 minecraft {
@@ -41,14 +58,13 @@ minecraft {
     }
 }
 
-repositories {
-    mavenCentral()
-    maven { url "https://www.cursemaven.com/" }
-}
+processResources {
+    project.ext."mod_id" = mod_name.toLowerCase()
+    project.ext."mcversion" = minecraft_max_version
 
-dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version()}-$forge_version"
-    implementation "curse.maven:forgelin-248453:$forgelin_version"
+    filesMatching("mcmod.info") {
+        expand(project.properties)
+    }
 }
 
 jar {
@@ -65,10 +81,36 @@ jar {
     }
 }
 
-compileKotlin {
-    kotlinOptions {
-        jvmTarget = "$jvm_version"
+curseforge {
+    apiKey = credentials.curse
+
+    project {
+        id = curseforge_id
+        changelog = ''
+        releaseType = release_type
+        addGameVersion minecraft_max_version
+
+        relations {
+            requiredDependency 'shadowfacts-forgelin'
+        }
+
+        mainArtifact(jar) {
+        }
     }
+}
+
+import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.request.VersionType
+
+task publishModrinth (type: TaskModrinthUpload) {
+    token = credentials.modrinth
+    projectId = modrinth_id
+    versionNumber = version
+    uploadFile = jar
+    versionType = VersionType.valueOf(release_type.toUpperCase())
+
+    addGameVersion minecraft_max_version
+    addLoader mod_loader
 }
 
 spotless {
@@ -87,6 +129,7 @@ spotless {
     }
 }
 
-String minecraft_version() {
-    return "$minecraft_major.$minecraft_minor.$minecraft_patch"
+tasks.register('upload') {
+    dependsOn curseforge274797
+    dependsOn publishModrinth
 }

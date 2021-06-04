@@ -38,19 +38,23 @@ object SquidMilk {
     const val DEPENDENCIES = "required-after:forgelin;"
     const val ADAPTER = "net.shadowfacts.forgelin.KotlinAdapter"
 
+    private const val area = 3.0
+
     @SubscribeEvent
     @JvmStatic
     // Problem: If a squid in water is milked, it would get rid of the water
     // Solution: This checks if there are any squids around the block position for the event,
     // if there are, it cancels the event to fill the bucket with water
-    fun onItemRightClick(event: FillBucketEvent) {
+    fun onFillBucketEvent(event: FillBucketEvent) {
+        if (event.entityPlayer.heldItemMainhand.item != Items.BUCKET) return
+
         event.world.let { world ->
             event.target?.blockPos?.let { blockPos ->
                 world.getEntitiesWithinAABBExcludingEntity(
                     null,
-                    AxisAlignedBB(blockPos)
+                    AxisAlignedBB(blockPos).grow(area)
                 ).let { entities ->
-                    if (entities.isNotEmpty()) {
+                    if (entities.any { it is EntitySquid }) {
                         event.isCanceled = true
                     }
                 }
