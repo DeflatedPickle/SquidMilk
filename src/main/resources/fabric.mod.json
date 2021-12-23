@@ -1,31 +1,36 @@
 {
   "schemaVersion": 1,
-  "id": "squidmilk",
+  "id": "${id}",
   "version": "${version}",
-  "name": "SquidMilk",
-  "description": "",
+  "name": "${name}",
+  "description": "${desc}",
   "authors": [
-    "DeflatedPickle"
+    "${author}"
   ],
   "contact": {
-    "sources": "https://github.com/DeflatedPickle/SquidMilk"
+    "homepage": "${site}",
+    "issues": "${src}/issues",
+    "sources": "${src}"
   },
-  "license": "MIT",
-  "icon": "assets/modid/icon.png",
+  "license": "${license}",
+  "icon": "assets/${id}/icon.png",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.deflatedpickle.squidmilk.SquidMilkKt::init"
+      {
+        "adapter": "kotlin",
+        "value": "${group}.${id}.${name}"
+      }
     ]
   },
+  "mixins": [
+    "${id}.mixins.json"
+  ],
   "depends": {
-    "fabricloader": ">=0.11.3",
-    "fabric": "*",
-    "fabric-language-kotlin": "*",
-    "minecraft": "1.17.x",
-    "java": ">=16"
-  },
-  "suggests": {
-    "another-mod": "*"
+    "fabricloader": ">=${loader}",
+    "fabric": ">=${fabric}",
+    "fabric-language-kotlin": ">=${adapter}",
+    "minecraft": "${minecraft}",
+    "java": ">=${java}"
   }
 }

@@ -1,2 +1,2 @@
-# Minecraft-Beta-1.3-Unfix
-Unfixes a most important fix from Beta 1.3 - Milk-able squids.
+# SquidMilk ![Build](https://github.com/DeflatedPickle/SquidMilk/actions/workflows/gradle-build.yml/badge.svg)
+A Minecraft Fabric mod that unfixes milkable squids
