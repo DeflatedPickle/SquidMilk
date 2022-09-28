@@ -1,4 +1,4 @@
-/* Copyright (c) 2021 DeflatedPickle under the MIT license */
+/* Copyright (c) 2021-2022 DeflatedPickle under the CC0 license */
 
 @file:Suppress("unused")
 
@@ -17,7 +17,8 @@ import org.spongepowered.asm.mixin.Mixin
 @Mixin(SquidEntity::class)
 abstract class MixinSquid : MobEntity(null, null) {
     // this is just copied from cows
-    override fun interactMob(player: PlayerEntity, hand: Hand?): ActionResult? {
+    override fun interactMob(player: PlayerEntity, hand: Hand): ActionResult {
+        println("wafwafafgege")
         val itemStack = player.getStackInHand(hand)
         if (itemStack.isOf(Items.BUCKET) && !this.isBaby) {
             player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0f, 1.0f)
