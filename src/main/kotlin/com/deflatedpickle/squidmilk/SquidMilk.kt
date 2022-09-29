@@ -4,6 +4,12 @@
 
 package com.deflatedpickle.squidmilk
 
+import net.minecraft.entity.mob.MobEntity
+import net.minecraft.entity.player.PlayerEntity
+import net.minecraft.item.ItemUsage
+import net.minecraft.item.Items
+import net.minecraft.sound.SoundEvents
+import net.minecraft.util.Hand
 import org.quiltmc.loader.api.ModContainer
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer
 
@@ -17,5 +23,16 @@ object SquidMilk : ModInitializer {
 
     override fun onInitialize(mod: ModContainer) {
         println(listOf(MOD_ID, NAME, GROUP, AUTHOR, VERSION))
+    }
+
+    fun interact(squid: MobEntity, player: PlayerEntity, hand: Hand): Boolean {
+        val itemStack = player.getStackInHand(hand)
+        if (itemStack.isOf(Items.BUCKET) && !squid.isBaby) {
+            player.playSound(SoundEvents.ENTITY_COW_MILK, 1.0f, 1.0f)
+            val itemStack2 = ItemUsage.exchangeStack(itemStack, player, Items.MILK_BUCKET.defaultStack)
+            player.setStackInHand(hand, itemStack2)
+            return true
+        }
+        return false
     }
 }
