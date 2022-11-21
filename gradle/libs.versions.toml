@@ -2,10 +2,10 @@
 # The latest versions are available at https://lambdaurora.dev/tools/import_quilt.html
 minecraft = "1.18.2"
 
-quilt_mappings = "1.18.2+build.24"
-quilt_loader = "0.17.0"
+quilt_mappings = "1.18.2+build.22"
+quilt_loader = "0.16.0-beta.11"
 
-quilted_fabric_api = "1.0.0-beta.20+0.55.1-1.18.2"
+quilted_fabric_api = "1.0.0-beta.10+0.51.1-1.18.2"
 
 quilt_loom = "0.12.+"
 

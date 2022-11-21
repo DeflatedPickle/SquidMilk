@@ -1,5 +1,6 @@
 {
     "schema_version": 1,
+    "mixin": ["${id}.mixins.json"],
     "quilt_loader": {
         "metadata": {
             "license": "MIT",
@@ -12,7 +13,6 @@
             "description": "${desc}",
             "contributors": {"${author}": "Owner"}
         },
-        "mixins": ["${id}.mixins.json"],
         "depends": [
             {
                 "versions": ">=${loader}-",
